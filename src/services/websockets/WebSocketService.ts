@@ -1,4 +1,3 @@
-/* eslint-disable */
 class WebSocketService {
   private static instance: WebSocketService | null = null;
   private socket!: WebSocket;
@@ -29,10 +28,10 @@ class WebSocketService {
       if (this.onCloseCallback) {
         this.onCloseCallback();
       }
-      // Reconnect after a delay
+      // Reconnect after 1 minute
       setTimeout(() => {
         this.connect();
-      }, 2000);
+      }, 60000);
     };
     this.socket.onerror = (error: any) => {
       if (this.onErrorCallback) {
@@ -47,7 +46,10 @@ class WebSocketService {
     }
     return WebSocketService.instance;
   }
-
+  public sendParams(params: any) {
+    const message = JSON.stringify(params);
+    this.sendMessage(message);
+  }
   public onOpen(callback: () => void) {
     this.onOpenCallback = callback;
   }
