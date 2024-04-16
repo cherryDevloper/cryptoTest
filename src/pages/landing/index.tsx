@@ -61,9 +61,9 @@ function Landing() {
       <div css={containerStyle}>
         {loading && <Loading />}
         {data.length > 0 && (
-          <ul>
-            {data.slice(0, 10).map((item) => (
-              <li key={item.s} css={listItemStyle}>
+          <ul css={itemList}>
+            {data.slice(0, 10).map((item: Record<string, string>) => (
+              <li key={item.s} css={itemStyle}>
                 <span>{item.s}</span>
                 <span>{item.c}</span>
                 <span>{item.p}</span>
@@ -82,13 +82,18 @@ const containerStyle = css`
   font-family: Arial, sans-serif;
   padding: 2rem;
   background-color: black;
-  border-radius: 10px;
-  min-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
-  margin: 0 auto;
 `;
 
-const listItemStyle = css`
+const itemStyle = css`
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   list-style: none;
   padding: 1rem;
   margin-bottom: 10px;
@@ -96,4 +101,9 @@ const listItemStyle = css`
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
-const itemStyle = css``;
+const itemList = css`
+  width: 100%;
+  margin: 1rem 2rem;
+  height: 100vh;
+  background: gray;
+`;
