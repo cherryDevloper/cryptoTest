@@ -28,10 +28,9 @@ class WebSocketService {
       if (this.onCloseCallback) {
         this.onCloseCallback();
       }
-      // Reconnect after 1 minute
       setTimeout(() => {
         this.connect();
-      }, 60000);
+      }, 6000);
     };
     this.socket.onerror = (error: any) => {
       if (this.onErrorCallback) {

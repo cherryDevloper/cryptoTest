@@ -32,7 +32,10 @@ function Landing() {
       try {
         const parsedData = JSON.parse(message);
         if (Array.isArray(parsedData)) {
-          setData(parsedData);
+          const newArray = parsedData
+            .slice(0, 10)
+            .map((data) => ({ name: data.s, c: data.c, p: data.p }));
+          setData(newArray);
         } else {
           return [];
         }
@@ -43,7 +46,7 @@ function Landing() {
     };
 
     const handleError = (error: ErrorEvent) => {
-      setLoading(false);
+      setLoading(true);
       console.log("error :>> ", error);
     };
 
@@ -55,16 +58,15 @@ function Landing() {
       wsService.close();
     };
   }, []);
-
   return (
     <Layout>
       <div css={containerStyle}>
         {loading && <Loading />}
         {data.length > 0 && (
           <ul css={itemList}>
-            {data.slice(0, 10).map((item: Record<string, string>) => (
-              <li key={item.s} css={itemStyle}>
-                <span>{item.s}</span>
+            {data.map((item: Record<string, string>) => (
+              <li key={item.name} css={itemStyle}>
+                <span>{item.name}</span>
                 <span>{item.c}</span>
                 <span>{item.p}</span>
               </li>
@@ -86,6 +88,7 @@ const containerStyle = css`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  flex-direction: column;
 `;
 
 const itemStyle = css`
@@ -93,7 +96,7 @@ const itemStyle = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 90%;
   list-style: none;
   padding: 1rem;
   margin-bottom: 10px;
@@ -105,5 +108,4 @@ const itemList = css`
   width: 100%;
   margin: 1rem 2rem;
   height: 100vh;
-  background: gray;
 `;
